@@ -1,4 +1,3 @@
-# healthcheck.py
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import threading
 
@@ -8,4 +7,8 @@ class HealthHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(b'OK')
 
-threading.Thread(target=lambda: HTTPServer(('0.0.0.0', 8000), HealthHandler).serve_forever(), daemon=True).start()
+# Start the HTTP server in a background thread
+threading.Thread(
+    target=lambda: HTTPServer(('0.0.0.0', 8000), HealthHandler).serve_forever(),
+    daemon=True
+).start()
