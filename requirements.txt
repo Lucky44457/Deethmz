@@ -45,4 +45,5 @@ xattr
 yt-dlp[default,curl-cffi]
 pytz
 python-dotenv
-mega.py
+mega.py>=1.1.7
+tenacity>=8.2.2
