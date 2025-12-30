@@ -7,7 +7,7 @@ class HealthHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(b'OK')
 
-# Start the HTTP server in a background thread
+# Start fake HTTP healthcheck server in background
 threading.Thread(
     target=lambda: HTTPServer(('0.0.0.0', 8000), HealthHandler).serve_forever(),
     daemon=True
