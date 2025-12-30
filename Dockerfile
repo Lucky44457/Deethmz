@@ -1,9 +1,16 @@
-# Use Python 3.10 for compatibility
+# Use Python 3.10 (avoids asyncio.coroutine issues)
 FROM python:3.10-slim
 
-# Set working directory
 WORKDIR /app
 RUN chmod 777 /app
+
+# Install system dependencies for packages
+RUN apt-get update && apt-get install -y \
+    curl \
+    gcc \
+    libffi-dev \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
 # Create virtual environment
 RUN python3 -m venv mltbenv
@@ -15,8 +22,8 @@ RUN mltbenv/bin/pip install --upgrade pip setuptools wheel
 COPY requirements.txt .
 RUN mltbenv/bin/pip install --no-cache-dir -r requirements.txt
 
-# Copy the bot code and healthcheck
+# Copy bot code and healthcheck
 COPY . .
 
-# Start fake healthcheck and bot using venv
+# Start healthcheck + bot using venv
 CMD ["bash", "-c", "source mltbenv/bin/activate && python3 healthcheck.py && bash start.sh"]
