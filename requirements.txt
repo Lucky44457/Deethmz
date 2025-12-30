@@ -45,3 +45,4 @@ xattr
 yt-dlp[default,curl-cffi]
 pytz
 python-dotenv
+mega.py
