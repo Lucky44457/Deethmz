@@ -10,4 +10,4 @@ RUN mltbenv/bin/pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["bash", "-c", "source mltbenv/bin/activate && python3 healthcheck.py & source mltbenv/bin/activate && bash start.sh"]
+CMD ["bash", "start.sh"]
