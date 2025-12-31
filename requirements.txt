@@ -35,4 +35,4 @@ yt-dlp[default,curl-cffi]
 python-dotenv
 pytz
 aria2p
-qbittorrentapi
+git+https://github.com/qbittorrent/qbittorrent-api.git
