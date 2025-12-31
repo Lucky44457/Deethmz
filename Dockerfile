@@ -3,12 +3,11 @@ FROM anasty17/mltb:latest
 WORKDIR /app
 RUN chmod 777 /app
 
-COPY requirements.txt .
+RUN python3 -m venv mltbenv
 
-# ✅ ONLY install requirements (NO pip upgrade)
-RUN pip3 install --no-cache-dir -r requirements.txt --break-system-packages
+COPY requirements.txt .
+RUN mltbenv/bin/pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# fake healthcheck + bot start
-CMD ["bash", "-c", "python3 healthcheck.py & bash start.sh"]
+CMD ["bash", "-c", "mltbenv/bin/python3 healthcheck.py & bash start.sh"]
