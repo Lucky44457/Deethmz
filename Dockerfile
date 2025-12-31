@@ -15,4 +15,4 @@ RUN ./mltbenv/bin/pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Ensure the venv is used when starting
-CMD ["./mltbenv/bin/python3", "start.py"]
+CMD ["./mltbenv/bin/python3", "start.sh"]
