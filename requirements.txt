@@ -35,3 +35,4 @@ yt-dlp[default,curl-cffi]
 python-dotenv
 pytz
 aria2p
+qbittorrentapi
