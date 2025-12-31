@@ -1,51 +1,46 @@
-# Base image
-FROM python:3.10-slim
+# --- Base Image ---
+FROM python:3.13-slim
 
-# Set working directory
-WORKDIR /app
+# --- Set working directory ---
+WORKDIR /usr/src/app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# --- Install system dependencies ---
+RUN apt-get update && apt-get install -y \
+    git \
     aria2 \
     qbittorrent-nox \
-    ffmpeg \
-    git \
     curl \
     wget \
     build-essential \
-    python3-dev \
-    libffi-dev \
-    libssl-dev \
-    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements
+# --- Copy requirements ---
 COPY requirements.txt .
 
-# Create Python virtual environment
-RUN python3 -m venv mltbenv
-
-# Upgrade pip, setuptools, wheel inside venv
+# --- Setup virtual environment ---
+RUN python -m venv mltbenv
 RUN mltbenv/bin/pip install --upgrade pip setuptools wheel
 
-# Install Python dependencies inside venv
-RUN mltbenv/bin/pip install --no-cache-dir -r requirements.txt
+# --- Install Python dependencies ---
+RUN mltbenv/bin/pip install -r requirements.txt
 
-# Install qbittorrent-api from GitHub if needed
-RUN mltbenv/bin/pip install git+https://github.com/qbittorrent/qbittorrent-api.git
+# --- Install qbittorrent-api from PyPI (avoid GitHub clone issue) ---
+RUN mltbenv/bin/pip install qbittorrent-api==2025.11.1
 
-# Copy bot files
+# --- Copy bot files ---
 COPY . .
 
-# Make scripts executable (if any)
-RUN chmod +x ./aria.sh
+# --- Make scripts executable ---
+RUN chmod +x start.sh
+RUN chmod +x aria.sh
 
-# Expose Aria2 RPC port
-EXPOSE 6800
+# --- Set environment variables for ports (changeable) ---
+ENV ARIA2_PORT=6800
+ENV QBITTORRENT_PORT=8080
 
-# Set default environment variables
-ENV PATH="/app/mltbenv/bin:$PATH"
-ENV PYTHONUNBUFFERED=1
+# --- Expose ports ---
+EXPOSE ${ARIA2_PORT}
+EXPOSE ${QBITTORRENT_PORT}
 
-# Start command
+# --- Start command ---
 CMD ["bash", "start.sh"]
