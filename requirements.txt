@@ -37,3 +37,4 @@ pytz
 aria2p
 qbittorrent-api
 beautifulsoup4
+mega.py
