@@ -38,3 +38,4 @@ aria2p
 qbittorrent-api
 beautifulsoup4
 mega.py
+qbittorrent-api>=2025.11.1
